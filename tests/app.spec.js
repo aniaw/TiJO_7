@@ -50,6 +50,9 @@ describe('generateMessage with sinon.spy adn sinon.stub', function ()
             callCountSpy = sinon.spy(app, 'vowelCount');
             app.generateMessage('lel');
         });
+        after(function(){
+            callCountSpy.restore();
+        });
 
         describe('callCount', function ()
         {
@@ -63,20 +66,40 @@ describe('generateMessage with sinon.spy adn sinon.stub', function ()
         {
             it('should call  vovelCount with \'lel\' first time',function()
             {
-               expect(callCountSpy.getCall(0)).calledWith('kajak');
+               expect(callCountSpy.getCall(0)).calledWith('lel');
             });
         });
     });
 
     describe('stub', function ()
     {
+        var callCountStub;
+        before(function() {
+            callCountStub = sinon.stub(app, 'vowelCount').returns(3);
+        });
+
+        after(function(){
+            callCountStub.restore();
+        });
         describe('returns', function ()
         {
-
+            it('should return value 3',function () {
+                expect(app.generateMessage('kajak')).to.eql({vowel:3, palindrome: true,
+                    message: 'kajak is palindrome and has 3 vovels'})
+            });
         });
         describe('withArgs', function ()
         {
 
+/*            before(function() {
+                callCountStub = sinon.stub(app, 'vowelCount');
+                callCountStub.withArgs('eeelllooo').returns(4);
+            });
+
+            it('should return 4',function(){
+                expect(app.vowelCount('eeelllooo')).to.eql(4)
+            });
+            */
         });
         describe('callsFake', function ()
         {

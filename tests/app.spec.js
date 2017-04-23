@@ -39,71 +39,76 @@ describe('generateMessage without sinon.spy and sinon.stub', function ()
     });
 });
 
-describe('generateMessage with sinon.spy adn sinon.stub', function ()
-{
+describe('generateMessage with sinon.spy adn sinon.stub', function () {
 
-    describe('spy', function ()
-    {
+    describe('spy', function () {
         var callCountSpy;
 
-        before(function(){
+        before(function () {
             callCountSpy = sinon.spy(app, 'vowelCount');
             app.generateMessage('lel');
         });
-        after(function(){
+        after(function () {
             callCountSpy.restore();
         });
 
-        describe('callCount', function ()
-        {
-            it('should call vovelCount function once',function()
-            {
-               expect(callCountSpy).callCount(1);
+        describe('callCount', function () {
+            it('should call vovelCount function once', function () {
+                expect(callCountSpy).callCount(1);
             });
         });
 
-        describe('calledWith', function ()
-        {
-            it('should call  vovelCount with \'lel\' first time',function()
-            {
-               expect(callCountSpy.getCall(0)).calledWith('lel');
+        describe('calledWith', function () {
+            it('should call  vovelCount with \'lel\' first time', function () {
+                expect(callCountSpy.getCall(0)).calledWith('lel');
             });
         });
     });
 
-    describe('stub', function ()
-    {
+    describe('stub', function () {
         var callCountStub;
-        before(function() {
+
+        beforeEach(function () {
             callCountStub = sinon.stub(app, 'vowelCount').returns(3);
+            callCountStub.withArgs('eeelllooo').returns(4);
         });
 
-        after(function(){
+        afterEach(function () {
             callCountStub.restore();
         });
-        describe('returns', function ()
-        {
-            it('should return value 3',function () {
-                expect(app.generateMessage('kajak')).to.eql({vowel:3, palindrome: true,
-                    message: 'kajak is palindrome and has 3 vovels'})
+        describe('returns', function () {
+            it('should return value 3', function () {
+                expect(app.generateMessage('kajak')).to.eql({
+                    vowel: 3, palindrome: true,
+                    message: 'kajak is palindrome and has 3 vovels'
+                })
             });
         });
-        describe('withArgs', function ()
-        {
+        describe('withArgs', function () {
 
-/*            before(function() {
-                callCountStub = sinon.stub(app, 'vowelCount');
-                callCountStub.withArgs('eeelllooo').returns(4);
-            });
-
-            it('should return 4',function(){
+            it('should return 4', function () {
                 expect(app.vowelCount('eeelllooo')).to.eql(4)
             });
-            */
-        });
-        describe('callsFake', function ()
-        {
 
+        });
+        describe('callsFake', function () {
+            var fakeCallCount;
+
+            before(function () {
+                console.log('before fake');
+                callCountStub.restore();
+
+                fakeCallCount = sinon.stub(app, 'vowelCount').callsFake(function (str) {
+                    var fake = app.vowelCount(str) + 10;
+                    return fake;
+                });
+            });
+
+            describe('if we use fake function', function () {
+                it('should return fake value', function () {
+                    expect(app.vowelCount('jupi')).to.eql(12)
+                });
+            });
         });
     });
 });

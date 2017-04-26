@@ -97,7 +97,7 @@ describe('generateMessage with sinon.spy adn sinon.stub', function () {
 
             beforeEach(function () {
                 callsFakevowel = sinon.stub(app, 'vowelCount').callsFakevowel(function (str) {
-                    return 10;
+                    return 15;
                 });
                 afterEach(function () {
                     callsFakevowel.restore();

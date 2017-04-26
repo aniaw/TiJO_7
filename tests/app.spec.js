@@ -96,8 +96,8 @@ describe('generateMessage with sinon.spy adn sinon.stub', function () {
             var callsFakevowel;
 
             beforeEach(function () {
-                callsFakevowel = sinon.stub(app, 'vowelCount').callsFake(function (str) {
-                    return 15;
+                callsFakevowel = sinon.stub(app, 'vowelCount').callsFake(function (text) {
+                    return text.length;
                 });
             });
             afterEach(function () {
@@ -105,9 +105,9 @@ describe('generateMessage with sinon.spy adn sinon.stub', function () {
             });
             it('should use fake function', function () {
                 expect(app.generateMessage('aertff')).to.eql({
-                    vowel: 15,
+                    vowel: 6,
                     palindrome: false,
-                    message: "aertff is not palindrome and has 15 vovels"
+                    message: "aertff is not palindrome and has 6 vovels"
                 });
             });
         })

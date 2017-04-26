@@ -78,7 +78,6 @@ describe('generateMessage with sinon.spy adn sinon.stub', function () {
                 });
             });
         });
-
         describe('withArgs', function () {
             beforeEach(function () {
                 vowelCountStub = sinon.stub(app, 'vowelCount');
@@ -92,24 +91,26 @@ describe('generateMessage with sinon.spy adn sinon.stub', function () {
                 expect(app.generateMessage('kajak')).to.eql({ vowel: 3, palindrome: true, message: 'kajak is palindrome and has 3 vovels' })
             });
             });
-        describe('callsFake', function () {
+
+        describe('callsFake',function () {
             var callsFakevowel;
 
             beforeEach(function () {
-                callsFakevowel = sinon.stub(app, 'vowelCount').callsFakevowel(function (str) {
+                callsFakevowel = sinon.stub(app, 'vowelCount').callsFake(function (str) {
                     return 15;
                 });
-                afterEach(function () {
-                    callsFakevowel.restore();
-                });
-                it('should use fake function', function () {
-                    expect(app.generateMessage('aertff')).to.eql({
-                        vowel: 15,
-                        palindrome: true,
-                        message: "aert is palindrome and has 15 vovels"
-                    });
+            });
+            afterEach(function () {
+                callsFakevowel.restore();
+            });
+            it('should use fake function', function () {
+                expect(app.generateMessage('aertff')).to.eql({
+                    vowel: 15,
+                    palindrome: false,
+                    message: "aertff is not palindrome and has 15 vovels"
                 });
             });
-        });
+        })
+
     });
 });

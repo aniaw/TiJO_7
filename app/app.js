@@ -35,18 +35,18 @@ function generateMessage(text)
 
         if (palindrome) {
             if (vowel > 0) {
-                message = text + ' is palindrome and has ' + vowel + ' vovels';
+                message = text + ' is palindrome and has ' + vowel + ' vowels';
             }
             else {
-                message = text + ' is palindrome and has no vovels';
+                message = text + ' is palindrome and has no vowels';
             }
         }
         else {
             if (vowel > 0) {
-                message = text + ' is not palindrome and has ' + vowel + ' vovels';
+                message = text + ' is not palindrome and has ' + vowel + ' vowels';
             }
             else {
-                message = text + ' is not palindrome and has no vovels';
+                message = text + ' is not palindrome and has no vowels';
             }
         }
         return {vowel: vowel, palindrome: palindrome, message: message};
